@@ -1,24 +1,70 @@
-# README
+# テーブル設計
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## users テーブル
 
-Things you may want to cover:
+| Column             | Type   | Options                  |
+| ------------------ | ------ | ------------------------ |
+| email              | string | null: false, unique: true|
+| encrypted_password | string | null: false              |
+| name               | string | null: false              |
+| name_kana          | string | null: false              |
+| nickname           | string | null: false              |
+| birthday           | date   | null: false              |
 
-* Ruby version
+### Association
 
-* System dependencies
+- has_many :items
+- has_many :buying_record
+- has_one :shipping_info
 
-* Configuration
 
-* Database creation
+## items テーブル
 
-* Database initialization
+| Column              | Type         | Options                        |
+| ------              | ----------   | ------------------------------ |
+| items_name          | string       | null: false                    |
+| items_description   | text         | null: false                    |
+| items_category      | string       | null: false                    |
+| items_condition     | string       | null: false                    |
+| shipping_fee        | string       | null: false                    |
+| shipping_region     | string       | null: false                    |
+| shipping_time       | string       | null: false,                   |
+| items_price         | integer      | null: false                    |
+| user_id             | references   | null: false, foreign_key: true |
 
-* How to run the test suite
+### Association
 
-* Services (job queues, cache servers, search engines, etc.)
+- has_one :buying_record
+- belong_to :users
+- has_one :shipping_info
 
-* Deployment instructions
+## shipping_info テーブル
 
-* ...
+| Column           | Type         | Options     |
+| ------           | ------------ | ------------|
+| zip_code         | integer      | null: false |
+| shipping_state   | strings      | null: false |
+| shipping_city    | strings      | null: false |
+| shipping_street  | strings      | null: false |
+| shipping_building| text         | 
+| phone            | integer      | null: false |
+| user_id          | references   | null: false, foreign_key: true |
+
+### Association
+- belong_to :users
+- belong_to :items
+- has_many  :buying_record
+
+
+## buying_record テーブル
+
+| Column      | Type         | Options                      |
+| ------      | ------------ | ---------------------------- |
+| user_id     | references   | null: false foreign_key: true|                 |
+| item_id     | references   | null: false foreign_key: true|
+
+
+### Association
+- belong_to :shipping_info
+- belong_to :users
+- belong_to :items_info
