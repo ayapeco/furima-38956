@@ -47,7 +47,7 @@
 | Column              | Type         | Options     |
 | ------              | ------------ | ------------|
 | zip_code            | string       | null: false |
-| shipping_region_id  | string       | null: false |
+| shipping_region_id  | integer      | null: false |
 | shipping_city       | string       | null: false |
 | shipping_street     | string       | null: false |
 | shipping_building   | string       | 
