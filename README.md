@@ -52,10 +52,9 @@
 | shipping_street     | string       | null: false |
 | shipping_building   | string       | 
 | phone               | string       | null: false |
-| user                | references   | null: false, foreign_key: true |
+| buying_record       | references   | null: false, foreign_key: true |
 
 ### Association
-- belong_to :user
 - belong_to :buying_record
 - belongs_to_active_hash :shipping_region
 
