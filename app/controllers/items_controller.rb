@@ -9,7 +9,6 @@ class ItemsController < ApplicationController
 
   def create
     @item = Item.new(item_params)
-    #Item.create(item_params)
     if @item.valid?
        @item.save
        redirect_to root_path(@item)
@@ -18,18 +17,14 @@ class ItemsController < ApplicationController
     end
   end
 end
+end
 
   private
   def item_params
     params.require(:item).permit(:items_name, :items_description, :category_id, :condition_id, :shipping_fee_id, :shipping_region_id, :shipping_time_id, :items_price, [:image]).merge(user_id: current_user.id)
 
   end
-
-  #def item_params
-    #params.require(:item).permit(:item_name, :item_description, :price, :condition_id, :category_id, :shipping_id, images_attributes: [:image], shipping_attributes: [:shipping_day, :shipping_fee, :shippingway_id, :shippingarea_id])
-  #end
-
-
+  
   def move_to_index
     redirect_to action: :index unless user_signed_in?
   end
