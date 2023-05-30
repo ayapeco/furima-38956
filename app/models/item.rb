@@ -1,7 +1,7 @@
 class Item < ApplicationRecord
   extend ActiveHash::Associations::ActiveRecordExtensions
-  has_one :buying_record
-  belong_to :user
+  #has_one :buying_record
+  belongs_to :user
   belongs_to :category
   belongs_to :condition
   belongs_to :shipping_fee
@@ -9,14 +9,14 @@ class Item < ApplicationRecord
   belongs_to :shipping_time
   has_one_attached :image
 
-  validates :items_name, :string, presence: true
-  validates :items_description, :text, presence: true
-  validates :category, :integer, presence: true
-  validates :condition, :integer, presence: true
-  validates :shipping_fee, :integer, presence: true
-  validates :shipping_region, :integer, presence: true
-  validates :shipping_time, :integer, presence: true
-  validates :items_price, :integer, presence: true
+  validates :items_name, presence: true
+  validates :items_description, presence: true
+  validates :category, presence: true
+  validates :condition, presence: true
+  validates :shipping_fee, presence: true
+  validates :shipping_region, presence: true
+  validates :shipping_time, presence: true
+  validates :items_price, presence: true
 
   validates :category_id, numericality: { other_than: 1 } 
   validates :condition_id, numericality: { other_than: 1 } 
