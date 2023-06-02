@@ -74,6 +74,31 @@ RSpec.describe Item, type: :model do
         @item.valid?
         expect(@item.errors.full_messages).to include('User must exist')
       end
+      it 'categoryがない場合は登録できない' do
+        @item.category_id = '1'
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Category must be other than 1")
+      end
+      it 'conditionがない場合は登録できない' do
+        @item.condition_id = '1'
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Condition must be other than 1")
+      end
+      it 'shipping_feeがない場合は登録できない' do
+        @item.shipping_fee_id = '1'
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Shipping fee must be other than 1")
+      end
+      it 'shipping_regionがない場合は登録できない' do
+        @item.shipping_region_id = '1'
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Shipping region must be other than 1")
+      end
+      it 'Shipping_timeがない場合は登録できない' do
+        @item.shipping_time_id = '1'
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Shipping time must be other than 1")
+      end
     end
   end
 end
