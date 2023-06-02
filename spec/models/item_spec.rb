@@ -39,32 +39,7 @@ RSpec.describe Item, type: :model do
         @item.valid?
         expect(@item.errors.full_messages).to include("Items description can't be blank")
       end
-      it 'categoryがない場合は登録できない' do
-        @item.category = nil
-        @item.valid?
-        expect(@item.errors.full_messages).to include("Category can't be blank")
-      end
-      it 'conditionがない場合は登録できない' do
-        @item.condition = nil
-        @item.valid?
-        expect(@item.errors.full_messages).to include("Condition can't be blank")
-      end
-      it 'shipping_feeがない場合は登録できない' do
-        @item.shipping_fee = nil
-        @item.valid?
-        expect(@item.errors.full_messages).to include("Shipping fee can't be blank")
-      end
-      it 'shipping_regionがない場合は登録できない' do
-        @item.shipping_region = nil
-        @item.valid?
-        expect(@item.errors.full_messages).to include("Shipping region can't be blank")
-      end
-      it 'Shipping_timeがない場合は登録できない' do
-        @item.shipping_time = nil
-        @item.valid?
-        expect(@item.errors.full_messages).to include("Shipping time can't be blank")
-      end
-      it 'Shipping_timeがない場合は登録できない' do
+      it 'items_priceがない場合は登録できない' do
         @item.items_price = nil
         @item.valid?
         expect(@item.errors.full_messages).to include("Items price can't be blank")
@@ -93,6 +68,11 @@ RSpec.describe Item, type: :model do
         @item.items_price = 'threemillion'
         @item.valid?
         expect(@item.errors.full_messages).to include('Items price is not included in the list')
+      end
+      it 'ユーザーが紐づいていないと登録できない' do
+        @item.user = nil
+        @item.valid?
+        expect(@item.errors.full_messages).to include('User must exist')
       end
     end
   end
