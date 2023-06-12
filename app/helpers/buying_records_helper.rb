@@ -1,0 +1,2 @@
+module BuyingRecordsHelper
+end

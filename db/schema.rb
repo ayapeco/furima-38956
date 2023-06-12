@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_05_27_133115) do
+ActiveRecord::Schema.define(version: 2023_06_11_100712) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -33,6 +33,15 @@ ActiveRecord::Schema.define(version: 2023_05_27_133115) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "buying_records", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "item_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["item_id"], name: "index_buying_records_on_item_id"
+    t.index ["user_id"], name: "index_buying_records_on_user_id"
+  end
+
   create_table "items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "items_name", null: false
     t.text "items_description", null: false
@@ -46,6 +55,19 @@ ActiveRecord::Schema.define(version: 2023_05_27_133115) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_items_on_user_id"
+  end
+
+  create_table "shippings", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "zip_code", null: false
+    t.string "shipping_region_id", null: false
+    t.string "shipping_city", null: false
+    t.string "shipping_street", null: false
+    t.string "shipping_building"
+    t.string "phone", null: false
+    t.bigint "buying_record_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["buying_record_id"], name: "index_shippings_on_buying_record_id"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -67,5 +89,8 @@ ActiveRecord::Schema.define(version: 2023_05_27_133115) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "buying_records", "items"
+  add_foreign_key "buying_records", "users"
   add_foreign_key "items", "users"
+  add_foreign_key "shippings", "buying_records"
 end
