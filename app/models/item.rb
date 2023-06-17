@@ -1,6 +1,5 @@
 class Item < ApplicationRecord
   extend ActiveHash::Associations::ActiveRecordExtensions
-  # has_one :buying_record
   belongs_to :user
   belongs_to :category
   belongs_to :condition
@@ -8,6 +7,7 @@ class Item < ApplicationRecord
   belongs_to :shipping_region
   belongs_to :shipping_time
   has_one_attached :image
+  has_one :buying_record
 
   validates :items_price, presence: true
 
@@ -23,5 +23,4 @@ class Item < ApplicationRecord
     validates :items_description
     validates :items_price, inclusion: { in: 300..9_999_999 }, numericality: { only_integer: true }
   end
-  #validates :items_price, numericality: true
-end
+  end
