@@ -16,7 +16,7 @@ RSpec.describe OrderShipping, type: :model do
         @order_shipping.shipping_building = ''
         expect(@order_shipping).to be_valid
       end
-    end
+      end
  
     context '内容に問題がある場合' do
       it '郵便番号が必須であること' do
@@ -44,13 +44,22 @@ RSpec.describe OrderShipping, type: :model do
         @order_shipping.valid?
         expect(@order_shipping.errors.full_messages).to include("Shipping street can't be blank")
       end
-      
       it '電話番号が必須であること' do
         @order_shipping.phone = ''
         @order_shipping.valid?
         expect(@order_shipping.errors.full_messages).to include("Phone can't be blank")
       end
-      it '電話番号は10桁以上11桁以内の半角数値のみ保存可能なこと' do
+      it '電話番号は10桁以上であること' do
+        @order_shipping.phone = '123456789'
+        @order_shipping.valid?
+        expect(@order_shipping.errors.full_messages).to include("Phone is invalid.")
+      end
+      it '電話番号は11桁以内であること' do
+        @order_shipping.phone = '123456789901'
+        @order_shipping.valid?
+        expect(@order_shipping.errors.full_messages).to include("Phone is invalid.")
+      end
+      it '電話番号は半角数値のみ保存可能なこと' do
         @order_shipping.phone = '123456abcあ'
         @order_shipping.valid?
         expect(@order_shipping.errors.full_messages).to include("Phone is invalid.")

@@ -1,8 +1,14 @@
 class BuyingRecordsController < ApplicationController
+before_action :authenticate_user!, only: [:index, :create]
+before_action :set_item, only: [:index, :create]
+before_action :prevent_url, only: [:index, :create]
 
   def index
     @order_shipping = OrderShipping.new
     @item = Item.find(params[:item_id])
+  if current_user == @item.user
+    redirect_to root_path
+    end
   end
 
   def new
@@ -10,11 +16,10 @@ class BuyingRecordsController < ApplicationController
 
   def create
     @order_shipping = OrderShipping.new(order_params)
-    @item = Item.find(params[:item_id])
     if @order_shipping.valid?
-       pay_item
-       @order_shipping.save
-       redirect_to root_path
+      pay_item
+      @order_shipping.save
+      redirect_to root_path
     else
       render :index
     end
@@ -27,11 +32,21 @@ class BuyingRecordsController < ApplicationController
   end
 
   def pay_item
-  Payjp.api_key = "sk_test_d056864b3feb42b0c47306c9"  # 自身のPAY.JPテスト秘密鍵を記述しましょう
+  Payjp.api_key = ENV["PAYJP_SECRET_KEY"]  # 自身のPAY.JPテスト秘密鍵を記述しましょう
   Payjp::Charge.create(
     amount: @item.items_price,  # 商品の値段
-    card: order_params[:token],    # カードトークン
-    currency: 'jpy'                 # 通貨の種類（日本円）
+    card: order_params[:token], # カードトークン
+    currency: 'jpy'             # 通貨の種類（日本円）
   )
 end
+def set_item
+  @item = Item.find(params[:item_id])
+end
+def prevent_url
+  @item = Item.find(params[:item_id])
+  if @item.buying_record
+    redirect_to root_path
+  end
+  
+ end
 end

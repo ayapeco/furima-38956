@@ -1,6 +1,7 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!, except: [:show, :index]
   before_action :set_item, only: [:edit, :show, :update, :destroy]
+  before_action :prevent_url, only: [:edit, :update, :destroy]
 
   def index
     @items = Item.all.order('created_at DESC')
@@ -62,4 +63,11 @@ end
 def set_item
   @item = Item.find(params[:id])
 end
+
+def prevent_url
+  @item = Item.find(params[:id])
+  if @item.buying_record
+    redirect_to root_path
+  end
+ end
 end
