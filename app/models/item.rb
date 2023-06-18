@@ -9,7 +9,7 @@ class Item < ApplicationRecord
   has_one_attached :image
   has_one :buying_record
 
-  validates :items_price, presence: true
+  #validates :items_price, presence: true
 
   validates :category_id, numericality: { other_than: 1 }
   validates :condition_id, numericality: { other_than: 1 }
